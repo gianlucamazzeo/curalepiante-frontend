@@ -2,33 +2,9 @@
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
     import { slide } from 'svelte/transition';
+    import { categorieStore } from '$lib/stores/categorieStore';
     
-    // Menu items configuration
-    const menuItems = [
-      { 
-        label: "Home", 
-        url: "/" 
-      },
-      {
-        label: "Piante",
-        url: null, 
-        submenu: [
-          { label: "Piante da interno", url: "/piante/interno" },
-          { label: "Piante da esterno", url: "/piante/esterno" },
-          { label: "Piante grasse", url: "/piante/grasse" }
-        ]
-      },
-      {
-        label: "Consigli di giardinaggio",
-        url: null, 
-        submenu: [
-          { label: "Irrigazione", url: "/suggerimenti/irrigazione" },
-          { label: "Fertilizzazione", url: "/suggerimenti/fertilizzazione" },
-          { label: "Potatura", url: "/suggerimenti/potatura" },
-          { label: "Problemi comuni", url: "/suggerimenti/problemi" }
-        ]
-      }
-    ];
+   
     
     let scrolled = false;
     let menuOpen = false;
@@ -63,7 +39,25 @@
       }
     }
     
+    
+  // Calcola menuItems combinando elementi statici e dinamici
+  $: menuItems = [
+    { label: "Home", url: "/" },
+    {
+      label: "Piante",
+      url: null, 
+      submenu: $categorieStore.isLoading
+        ? [{ label: "Caricamento...", url: "#" }]
+        : $categorieStore.categorie.map(cat => ({
+            label: cat.nome,
+            url: `/piante/${cat.slug}`,
+            description: cat.descrizione
+          }))
+    },
+  ];
+
     onMount(() => {
+        categorieStore.fetchCategorie();
       const handleScroll = () => {
         scrolled = window.scrollY > 20;
       };
