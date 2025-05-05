@@ -47,6 +47,7 @@
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImage} />
+    <link rel="preload" href="/images/hero-background.png" as="image" />
     
     <!-- Articolo specifico meta tags (solo per pagine di articoli) -->
     {#if ogType === 'article' && publishedTime}

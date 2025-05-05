@@ -22,7 +22,7 @@
       title: 'Cura delle Piante - La tua guida per coltivare piante sane e rigogliose',
       description: 'Scopri consigli, guide e prodotti per la cura delle piante da interno ed esterno. Diventa esperto nella coltivazione di succulente, piante grasse, erbe aromatiche e molto altro.',
       keywords: 'cura delle piante, piante da interno, piante da esterno, succulente, erbe aromatiche, giardinaggio, consigli piante',
-      ogImage: '/images/og-image-home.jpg',
+      ogImage: '/images/hero-background.png',
       ogType: 'website',
       canonicalUrl: $page.url.href,
     };
@@ -60,7 +60,6 @@
   
   <!-- SEO Component con tutti i meta tag necessari -->
   <SEO {...seoData} />
-  
   <!-- Contenuto visibile solo dopo il caricamento per migliorare perceived performance -->
   {#if isLoading}
     <div class="flex justify-center items-center min-h-[60vh]">
@@ -74,25 +73,24 @@
     <main>
       <!-- Hero Section -->
       <section 
-        class="relative h-[70vh] bg-cover bg-center" 
-        style="background-image: url('/images/hero-background.jpg');"
-        in:fade={{ duration: 500, delay: 100 }}
+      class="relative h-[80vh] bg-cover bg-center" 
+      style="background-image: url('/images/hero-background.png');"
       >
-        <div class="absolute inset-0 bg-black opacity-30"></div>
-        <div class="relative container mx-auto px-4 h-full flex items-center">
-          <div class="max-w-2xl text-white">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Trasforma la tua casa in un'oasi verde</h1>
-            <p class="text-xl mb-8">Scopri i nostri consigli e tutto ciò che ti serve per curare le tue piante al meglio</p>
-            <div class="flex flex-col sm:flex-row gap-4">
-              <a href="/catalogo" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300">
-                Esplora il catalogo
-              </a>
-              <a href="/guide" class="bg-transparent hover:bg-white/20 border-2 border-white text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300">
-                Scopri le nostre guide
-              </a>
-            </div>
+      <div class="absolute inset-0 bg-black opacity-20"></div>
+      <div class="relative container mx-auto px-4 h-full flex items-center">
+        <div class="max-w-2xl text-white">
+          <h1 class="text-4xl md:text-5xl font-serif font-bold mb-4 drop-shadow-lg">Trasforma il tuo spazio in un giardino da sogno</h1>
+          <p class="text-xl mb-8 drop-shadow-md">Scopri l'arte di creare e mantenere spazi verdi che incantano e rilassano</p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/catalogo" class="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300">
+              Esplora il catalogo
+            </a>
+            <a href="/guide" class="bg-white/30 hover:bg-white/40 backdrop-blur-sm border border-white/50 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300">
+              Guide e consigli
+            </a>
           </div>
         </div>
+      </div>
       </section>
   
       <!-- Componenti che usano i dati caricati da API -->
