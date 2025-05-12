@@ -1,3 +1,17 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+/* Font predefinito globale */
+body {
+	@apply font-sans;
+}
+
+/* Font personalizzati */
+.title-font {
+	@apply font-serif text-emerald-800;
+}
+
+.body-font {
+	@apply font-sans text-gray-700;
+}

@@ -3,6 +3,7 @@
     import { fade } from 'svelte/transition';
     import { page } from '$app/stores';
     import SEO from '$lib/components/SEO.svelte';
+    import Card from '../lib/components/Card.svelte';
     //import FeaturedPosts from '$lib/components/FeaturedPosts.svelte';
     //import CategoryGrid from '$lib/components/CategoryGrid.svelte';
     //import GuidesSection from '$lib/components/GuidesSection.svelte';
@@ -26,6 +27,69 @@
       ogType: 'website',
       canonicalUrl: $page.url.href,
     };
+
+    categories = [
+          { 
+            id: 1, 
+            nome: 'Piante da interno', 
+            slug: 'piante-interno',
+            descrizione: 'Scopri le migliori piante per abbellire e purificare i tuoi spazi interni.',
+            immagine: '/images/pianta-da-interno.png' 
+          },
+          { 
+            id: 2, 
+            nome: 'Piante da esterno', 
+            slug: 'piante-esterno',
+            descrizione: 'Trasforma il tuo giardino con le piante più resistenti e decorative per esterni.',
+            immagine: '/images/roserosse.png' 
+          },
+          { 
+            id: 3, 
+            nome: 'Orto e aromatiche', 
+            slug: 'orto-aromatiche',
+            descrizione: 'Facili da curare e bellissime da vedere: scopri il mondo delle succulente.',
+            immagine: '/images/pommodori.png' 
+          }
+        ];
+
+   guides = [
+  {
+    title: "Come irrigare correttamente le piante",
+    description: "Scopri i segreti per un'irrigazione efficace e risparmia acqua mantenendo le tue piante in salute.",
+    image: "/images/articles/irrigare-correttamente-la-pianta.png",
+    imageAlt: "Come irrigare correttamente le piante",
+    link: "/guide/irrigazione-corretta"
+  },
+  {
+    title: "Top 10 piante facili da curare",
+    description: "Le migliori piante per principianti che richiedono poche attenzioni ma danno grandi soddisfazioni.",
+    image: "/images/articles/potatura-pianta.png",
+    imageAlt: "Top 10 piante facili da curare",
+    link: "/guide/piante-facili-cura"
+  },
+  {
+    title: "Tecniche di potatura efficaci",
+    description: "Impara quando e come potare le tue piante per stimolare la crescita.",
+    image: "/images/articles/tecniche_potatura.png",
+    imageAlt: "Tecniche di potatura",
+    link: "/guide/tecniche-potatura"
+  },
+  {
+    title: "Come combattere i parassiti",
+    description: "Soluzioni naturali ed efficaci contro i parassiti più comuni delle piante.",
+    image: "/images/articles/combattere-parassiti-per-piante.png",
+    imageAlt: "Combattere i parassiti",
+    link: "/guide/combattere-parassiti"
+  },
+  {
+    title: "Guida completa al rinvaso",
+    description: "Tutti i passaggi per rinvasare correttamente le tue piante e farle crescere sane.",
+    image: "/images/articles/rinvasare-le-piante.png",
+    imageAlt: "Guida al rinvaso",
+    link: "/guide/rinvaso-piante"
+  }
+];
+
     
     onMount(async () => {
       try {
@@ -70,7 +134,7 @@
       </div>
     </div>
   {:else}
-    <main>
+    <main class="bg-green-50">
       <!-- Hero Section -->
       <section 
       class="relative h-[80vh] bg-cover bg-center" 
@@ -92,6 +156,52 @@
         </div>
       </div>
       </section>
+      <!-- Categorie Principali -->
+      <section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-green-50" in:fade={{ duration: 300, delay: 100 }}>
+        <div class="container mx-auto px-4">
+    
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {#each categories as category}
+            <div class="relative bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 h-72 flex items-end">
+              <div
+                class="absolute inset-0 bg-black/50  bg-cover bg-center"
+                style="background-image: url({category.immagine});"
+              ></div>
+              <div class="absolute inset-0 bg-black/30"></div> <!-- overlay scura semi-trasparente -->
+              <div class="relative z-10 p-6 text-white drop-shadow-md">
+                <h3 class="font-serif text-xl font-semibold mb-2">{category.nome}</h3>
+                <p class="text-sm mb-4">{category.descrizione}</p>
+                <a href={`/piante/${category.slug}`} class="text-emerald-200 font-medium hover:text-emerald-100">Esplora la categoria →</a>
+              </div>
+            </div>
+            {/each}
+          </div>
+        </div>
+      </section>
+
+    <section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-green-50" in:fade={{ duration: 300, delay: 100 }}>
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-serif text-center font-bold mb-10 text-emerald-800">Guide e consigli utili</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {#each guides.slice(0, 2) as article}
+        <Card {...article} />
+      {/each}
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {#each guides.slice(2) as article}
+        <Card {...article} />
+      {/each}
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="/guide" class="inline-block bg-white/30 hover:bg-white/40 backdrop-blur-sm border border-emerald-500 text-emerald-700 font-bold py-3 px-6 rounded-lg transition-colors">
+        Esplora tutte le guide
+      </a>
+    </div>
+  </div>
+</section>
   
       <!-- Componenti che usano i dati caricati da API -->
       <!-- Categorie Principali -->
