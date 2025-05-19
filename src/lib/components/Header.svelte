@@ -4,7 +4,6 @@
     import { slide } from 'svelte/transition';
     import { categorieStore } from '$lib/stores/categorieStore';
     
-   
     
     let scrolled = false;
     let menuOpen = false;
@@ -47,14 +46,21 @@
       label: "Piante",
       url: null, 
       submenu: $categorieStore.isLoading
-        ? [{ label: "Caricamento...", url: "#" }]
-        : $categorieStore.categorie.map(cat => ({
-            label: cat.nome,
-            url: `/piante/${cat.slug}`,
-            description: cat.descrizione
-          }))
+          ? [{ label: "Caricamento...", url: "#" }]
+          : $categorieStore.categorie
+              .filter(cat => cat.slug !== "guide-e-consigli") // Filter out "guide-e-consigli"
+              .map(cat => ({
+                label: cat.nome,
+                url: `/piante/${cat.slug}`,
+                description: cat.descrizione
+              }))
     },
+    {
+      label: "Guide e Consigli",
+      url: "/guide-e-consigli"
+    }
   ];
+
 
     onMount(() => {
         categorieStore.fetchCategorie();
@@ -102,8 +108,8 @@
           >
             Home
           </a>
-          
           {#each menuItems.filter(item => item.label !== 'Home') as item}
+        
             <div class="relative group flex items-center">
               {#if item.url !== null}
                 <!-- Elemento cliccabile -->
@@ -140,12 +146,6 @@
               {/if}
             </div>
           {/each}
-            <a 
-            href="/" 
-            class={`py-1 font-medium transition-colors cursor-pointer ${$page.url.pathname === 'guide-e-consigli' ? 'text-emerald-600' : 'text-emerald-800 hover:text-emerald-600'}`}
-          >
-            Guide e Consigli
-          </a>
         </nav>
         
         <!-- Search container con larghezza fissa -->
@@ -247,18 +247,7 @@
                 </div>
               {/if}
             </div>
-          {/each}
-
-          <div class="relative group flex items-center">
-  <a 
-    href="/piante/piante-da-interno" 
-    class={`py-2 font-medium transition-colors cursor-pointer ${$page.url.pathname.startsWith('/piante/piante-da-interno') ? 'text-emerald-600' : 'text-emerald-800 hover:text-emerald-600'}`}
-  >
-    Piante da Interno
-  </a>
-</div>
-
-          
+          {/each}          
           <!-- Search input for mobile -->
           <div class="pt-2 border-t border-green-200 mt-2">
             <div class="relative">
