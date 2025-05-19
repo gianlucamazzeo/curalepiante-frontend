@@ -140,6 +140,12 @@
               {/if}
             </div>
           {/each}
+            <a 
+            href="/" 
+            class={`py-1 font-medium transition-colors cursor-pointer ${$page.url.pathname === 'guide-e-consigli' ? 'text-emerald-600' : 'text-emerald-800 hover:text-emerald-600'}`}
+          >
+            Guide e Consigli
+          </a>
         </nav>
         
         <!-- Search container con larghezza fissa -->
@@ -242,6 +248,16 @@
               {/if}
             </div>
           {/each}
+
+          <div class="relative group flex items-center">
+  <a 
+    href="/piante/piante-da-interno" 
+    class={`py-2 font-medium transition-colors cursor-pointer ${$page.url.pathname.startsWith('/piante/piante-da-interno') ? 'text-emerald-600' : 'text-emerald-800 hover:text-emerald-600'}`}
+  >
+    Piante da Interno
+  </a>
+</div>
+
           
           <!-- Search input for mobile -->
           <div class="pt-2 border-t border-green-200 mt-2">
