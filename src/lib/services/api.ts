@@ -258,7 +258,7 @@ export const pianteAPI = {
 		console.log('Piante data:', response.data.data);
 
 		return {
-			// CORREZIONE: Accedi ai dati attraverso response.data.data
+			
 			piante: Array.isArray(response.data.data) ? response.data.data.map(mapPianta) : [],
 			pagination: {
 				currentPage: response.data.current_page,

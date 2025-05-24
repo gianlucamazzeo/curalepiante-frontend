@@ -194,6 +194,11 @@
             imageAlt={pianta.commonName}
             link={`/piante/dettaglio/${pianta.id}`}
             linkText="Vedi dettagli →"
+            watering={pianta.watering}
+            sunlight={pianta.sunlight || []}
+            indoor={pianta.indoor || false}
+            flowers={pianta.flowers || false}
+            medicinal={pianta.medicinal || false}
           />
         {/each}
       </div>

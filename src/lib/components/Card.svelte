@@ -1,10 +1,46 @@
-<script>
-  export let title = '';
-  export let description = '';
-  export let image = '';
-  export let imageAlt = '';
-  export let link = '';
-  export let linkText = 'Leggi di più →';
+<script lang="ts">
+  import PlantIcon from './PlantIcon.svelte';
+
+  interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    imageAlt?: string;
+    link?: string;
+    linkText?: string;
+    watering?: string;
+    sunlight?: string[];
+    indoor?: boolean;
+    flowers?: boolean;
+    medicinal?: boolean;
+  }
+
+  let { 
+    title = '',
+    description = '',
+    image = '',
+    imageAlt = '',
+    link = '',
+    linkText = 'Leggi di più →',
+    watering = '',
+    sunlight = [],
+    indoor = false,
+    flowers = false,
+    medicinal = false
+  }: Props = $props();
+
+  function getWateringIcon(wateringLevel: string): string {
+    switch (wateringLevel?.toLowerCase()) {
+      case 'frequent':
+        return 'waterMaximum';
+      case 'average':
+        return 'waterMedium';
+      case 'minimum':
+        return 'waterMinimum';
+      default:
+        return 'waterMinimum';
+    }
+  }
 </script>
 
 <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
@@ -19,6 +55,29 @@
     
     <!-- Descrizione -->
     <p class="text-gray-600 mb-4 flex-grow">{description}</p>
+    
+    <!-- Icone delle caratteristiche della pianta -->
+    <div class="flex items-center gap-2 mb-4">
+      {#if watering}
+        <PlantIcon type={getWateringIcon(watering)} size="24" className="text-blue-500" />
+      {/if}
+      
+      {#if sunlight && sunlight.length > 0}
+        <PlantIcon type="sunlight" size="24" className="text-yellow-500" />
+      {/if}
+      
+      {#if indoor}
+        <PlantIcon type="indoor" size="24" className="text-green-500" />
+      {/if}
+      
+      {#if flowers}
+        <PlantIcon type="flowers" size="24" className="text-pink-500" />
+      {/if}
+      
+      {#if medicinal}
+        <PlantIcon type="medicinal" size="24" className="text-purple-500" />
+      {/if}
+    </div>
     
     <!-- Link -->
     {#if link}
