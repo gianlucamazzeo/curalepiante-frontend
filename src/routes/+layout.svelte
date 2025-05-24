@@ -34,7 +34,7 @@
 
 <div class="site-wrapper min-h-screen flex flex-col">
 	<Header />
-	<main class="flex-grow">
+	<main class="flex-grow pt-12 md:pt-14">
 		
 		{@render children()}
 	

@@ -19,6 +19,8 @@
     ogType: 'website',
     canonicalUrl: $page.url.href
   };
+
+  $: console.log($pianteStore.piante);
   
   // Funzione per applicare i filtri
   function applyFilters() {
@@ -85,6 +87,7 @@
     
     // Carica le piante con i filtri iniziali
     pianteStore.fetchPiante('piante-da-interno', initialFilters);
+  
   });
 </script>
 
@@ -186,8 +189,8 @@
         {#each $pianteStore.piante as pianta}
           <Card 
             title={pianta.commonName}
-            description={`${pianta.scientificName[0] || ''} • Irrigazione: ${translateWatering(pianta.watering)}`}
-            image={pianta.image?.thumbnail || '/images/pianta-da-interno.png'}
+            description={`${pianta.scientificName[0] || ''}`}
+            image={pianta.image?.thumbnail || '/images/plants/missing_image.jpg'}
             imageAlt={pianta.commonName}
             link={`/piante/dettaglio/${pianta.id}`}
             linkText="Vedi dettagli →"

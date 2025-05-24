@@ -94,16 +94,21 @@ export interface PiantaImmagine {
 
 // Interfaccia per una pianta come restituita dall'API
 export interface PiantaDTO {
-	data: {
-		id: number;
-		common_name: string;
-		scientific_name: string[];
-		other_name: string[];
-		cycle: string;
-		watering: string;
-		sunlight: string[];
-		default_image: PiantaImmagine | null;
-	};
+	id: number;
+	common_name: string;
+	scientific_name: string[];
+	other_name: string[];
+	cycle: string;
+	watering: string;
+	sunlight: string[];
+	indoor: boolean;
+	flowers: boolean;
+	fruits: boolean;
+	cuisine: boolean;
+	medicinal: boolean;
+	poisonous_to_pets: boolean;
+	pruning_count: number;
+	default_image: PiantaImmagine | null;
 }
 
 // Interfaccia per una pianta come la usiamo nell'app
@@ -115,20 +120,34 @@ export interface Pianta {
 	cycle: string;
 	watering: string;
 	sunlight: string[];
+	indoor: boolean;
+	flowers: boolean;
+	fruits: boolean;
+	cuisine: boolean;
+	medicinal: boolean;
+	poisonousToPets: boolean;
+	pruningCount: number;
 	image: PiantaImmagine | null;
 }
 
 // Funzione di mappatura dal DTO al modello dell'app per Pianta
 function mapPianta(dto: PiantaDTO): Pianta {
 	return {
-		id: dto.data.id,
-		commonName: dto.data.common_name,
-		scientificName: dto.data.scientific_name,
-		otherNames: dto.data.other_name,
-		cycle: dto.data.cycle,
-		watering: dto.data.watering,
-		sunlight: dto.data.sunlight,
-		image: dto.data.default_image
+		id: dto.id,
+		commonName: dto.common_name,
+		scientificName: dto.scientific_name,
+		otherNames: dto.other_name,
+		cycle: dto.cycle,
+		watering: dto.watering,
+		sunlight: dto.sunlight,
+		indoor: dto.indoor,
+		flowers: dto.flowers,
+		fruits: dto.fruits,
+		cuisine: dto.cuisine,
+		medicinal: dto.medicinal,
+		poisonousToPets: dto.poisonous_to_pets,
+		pruningCount: dto.pruning_count,
+		image: dto.default_image
 	};
 }
 
@@ -184,22 +203,30 @@ export const pianteAPI = {
 		const queryString = queryParams.toString();
 		const endpoint = queryString ? `/api/piante?${queryString}` : '/api/piante';
 
-		const response = await fetchWithErrorHandling<PaginatedPianteResponse<PiantaDTO>>(endpoint);
+		// CORREZIONE: La risposta è wrappata in ApiResponse
+		const response =
+			await fetchWithErrorHandling<ApiResponse<PaginatedPianteResponse<PiantaDTO>>>(endpoint);
+
+		// Debug: Log the response structure
+		console.log('API Response:', response);
+		console.log('Piante data:', response.data.data);
 
 		return {
-			piante: response.data.map(mapPianta),
+			// CORREZIONE: Accedi ai dati attraverso response.data.data
+			piante: Array.isArray(response.data.data) ? response.data.data.map(mapPianta) : [],
 			pagination: {
-				currentPage: response.current_page,
-				totalPages: response.last_page,
-				total: response.total,
-				perPage: response.per_page
+				currentPage: response.data.current_page,
+				totalPages: response.data.last_page,
+				total: response.data.total,
+				perPage: response.data.per_page
 			}
 		};
 	},
 
 	getById: async (id: number): Promise<Pianta> => {
-		const response = await fetchWithErrorHandling<PiantaDTO>(`/api/piante/${id}`);
-		return mapPianta(response);
+		// Per singola pianta, potrebbe essere diverso - verifica la struttura
+		const response = await fetchWithErrorHandling<ApiResponse<PiantaDTO>>(`/api/piante/${id}`);
+		return mapPianta(response.data);
 	},
 
 	getByCategory: async (
@@ -209,9 +236,6 @@ export const pianteAPI = {
 		piante: Pianta[];
 		pagination: { currentPage: number; totalPages: number; total: number; perPage: number };
 	}> => {
-		// Per le piante da interno, impostiamo il filtro indoor=1
-		//  const isIndoor = categorySlug === 'piante-da-interno';
-
 		// Costruisci la query string dai parametri
 		const queryParams = new URLSearchParams();
 
@@ -222,23 +246,25 @@ export const pianteAPI = {
 			}
 		}
 
-		// Aggiungi il filtro per piante da interno se necessario
-		//  if (isIndoor) {
-		//    queryParams.append('indoor', '1');
-		//  }
-
 		const queryString = queryParams.toString();
 		const endpoint = queryString ? `/api/piante?${queryString}` : '/api/piante';
 
-		const response = await fetchWithErrorHandling<PaginatedPianteResponse<PiantaDTO>>(endpoint);
+		// CORREZIONE: La risposta è wrappata in ApiResponse
+		const response =
+			await fetchWithErrorHandling<ApiResponse<PaginatedPianteResponse<PiantaDTO>>>(endpoint);
+
+		// Debug: Log the response structure
+		console.log('API Response:', response);
+		console.log('Piante data:', response.data.data);
 
 		return {
-			piante: response.data.map(mapPianta),
+			// CORREZIONE: Accedi ai dati attraverso response.data.data
+			piante: Array.isArray(response.data.data) ? response.data.data.map(mapPianta) : [],
 			pagination: {
-				currentPage: response.current_page,
-				totalPages: response.last_page,
-				total: response.total,
-				perPage: response.per_page
+				currentPage: response.data.current_page,
+				totalPages: response.data.last_page,
+				total: response.data.total,
+				perPage: response.data.per_page
 			}
 		};
 	}
