@@ -59,23 +59,23 @@
     <!-- Icone delle caratteristiche della pianta -->
     <div class="flex items-center gap-2 mb-4">
       {#if watering}
-        <PlantIcon type={getWateringIcon(watering)} size="24" className="text-blue-500" />
+        <PlantIcon type={getWateringIcon(watering)} size="40" className="text-blue-500" />
       {/if}
       
       {#if sunlight && sunlight.length > 0}
-        <PlantIcon type="sunlight" size="24" className="text-yellow-500" />
+        <PlantIcon type="sunlight" size="40" className="text-yellow-500" />
       {/if}
       
       {#if indoor}
-        <PlantIcon type="indoor" size="24" className="text-green-500" />
+        <PlantIcon type="indoor" size="40" className="text-green-500" />
       {/if}
       
       {#if flowers}
-        <PlantIcon type="flowers" size="24" className="text-pink-500" />
+        <PlantIcon type="flowers" size="40" className="text-pink-500" />
       {/if}
       
       {#if medicinal}
-        <PlantIcon type="medicinal" size="24" className="text-purple-500" />
+        <PlantIcon type="medicinal" size="40" className="text-purple-500" />
       {/if}
     </div>
     

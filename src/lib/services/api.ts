@@ -1,9 +1,53 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true' || false;
+
+// Import mock data
+import mockData from './mockData.json';
+
+/**
+ * Funzione per ottenere dati mock
+ */
+async function getMockData<T>(endpoint: string): Promise<T> {
+	// Simula un piccolo delay per simulare una chiamata di rete
+	await new Promise(resolve => setTimeout(resolve, 200));
+	
+	// Mappa gli endpoint ai dati mock appropriati
+	const mockMap: Record<string, any> = {
+		'/categorie': mockData.categorie,
+		'/api/piante': mockData.piante,
+		'/api/piante?indoor=true': mockData.piante_da_interno,
+		'/api/piante?indoor=false': mockData.piante_da_esterno
+	};
+	
+	// Gestisci endpoint con parametri di query
+	let mockKey = endpoint;
+	if (endpoint.includes('/api/piante')) {
+		if (endpoint.includes('indoor=true')) {
+			mockKey = '/api/piante?indoor=true';
+		} else if (endpoint.includes('indoor=false')) {
+			mockKey = '/api/piante?indoor=false';
+		} else {
+			mockKey = '/api/piante';
+		}
+	}
+	
+	const data = mockMap[mockKey];
+	if (!data) {
+		throw new Error(`Mock data non trovato per endpoint: ${endpoint}`);
+	}
+	
+	return data as T;
+}
 
 /**
  * Wrapper generico per fetch con gestione errori
  */
 async function fetchWithErrorHandling<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+	// Se USE_MOCK_DATA è true, usa i dati mock
+	if (USE_MOCK_DATA) {
+		return getMockData<T>(endpoint);
+	}
+	
 	try {
 		const response = await fetch(`${API_BASE_URL}${endpoint}`, {
 			...options,

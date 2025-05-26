@@ -17,7 +17,7 @@
     title?: string;
   }
   
-  let { type = '', size = '48', className = '', title = '' }: Props = $props();
+  let { type = '', size = '64', className = '', title = '' }: Props = $props();
   
   // Mappa dei componenti icona con tipizzazione corretta
   const iconComponents: Record<string, Component> = {
@@ -35,9 +35,8 @@
 </script>
 
 <div 
-  class="inline-flex items-center justify-center {className}"
+  class="inline-flex items-center justify-center relative group {className}"
   style="width: {size}px; height: {size}px;"
-  title={iconTitle}
   role="img"
   aria-label={iconTitle}
 >
@@ -47,9 +46,13 @@
     <!-- Fallback per icone non trovate -->
     <div 
       class="w-full h-full bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-xs font-medium border-2 border-gray-300"
-      title="Icona non trovata: {type}"
     >
       ?
     </div>
   {/if}
+  
+  <!-- Tooltip -->
+  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+    {iconTitle}
+  </div>
 </div>
