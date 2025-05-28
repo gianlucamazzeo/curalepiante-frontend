@@ -13,6 +13,7 @@
     indoor?: boolean;
     flowers?: boolean;
     medicinal?: boolean;
+    edible?: boolean;
   }
 
   let { 
@@ -26,21 +27,38 @@
     sunlight = [],
     indoor = false,
     flowers = false,
-    medicinal = false
+    medicinal = false,
+    edible = true,
   }: Props = $props();
 
   function getWateringIcon(wateringLevel: string): string {
     switch (wateringLevel?.toLowerCase()) {
       case 'frequent':
-        return 'waterMaximum';
+        return 'frequent';
       case 'average':
-        return 'waterMedium';
+        return 'average';
       case 'minimum':
-        return 'waterMinimum';
+        return 'minimum';
       default:
-        return 'waterMinimum';
+        return 'frequent';
     }
   }
+
+  function getSunlightIcon(sunlightLevels: string[]): string {
+    return sunlightLevels.join(', ') || 'sunlight';
+  }
+
+  // Funzione reattiva per contare le icone visibili
+  const visibleIcons = $derived([
+    watering,
+    sunlight && sunlight.length > 0,
+    indoor,
+    flowers,
+    medicinal,
+    edible
+  ].filter(Boolean));
+
+  const shouldWrap = $derived(visibleIcons.length > 4);
 </script>
 
 <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
@@ -57,26 +75,32 @@
     <p class="text-gray-600 mb-4 flex-grow">{description}</p>
     
     <!-- Icone delle caratteristiche della pianta -->
-    <div class="flex items-center gap-2 mb-4">
-      {#if watering}
-        <PlantIcon type={getWateringIcon(watering)} size="40" className="text-blue-500" />
-      {/if}
-      
-      {#if sunlight && sunlight.length > 0}
-        <PlantIcon type="sunlight" size="40" className="text-yellow-500" />
-      {/if}
-      
-      {#if indoor}
-        <PlantIcon type="indoor" size="40" className="text-green-500" />
-      {/if}
-      
-      {#if flowers}
-        <PlantIcon type="flowers" size="40" className="text-pink-500" />
-      {/if}
-      
-      {#if medicinal}
-        <PlantIcon type="medicinal" size="40" className="text-purple-500" />
-      {/if}
+    <div class="mb-4">
+      <div class={`flex items-center gap-2 ${shouldWrap ? 'flex-wrap' : ''}`}>
+        {#if watering}
+          <PlantIcon type={getWateringIcon(watering)} size="40" className="text-blue-500" />
+        {/if}
+        
+        {#if sunlight && sunlight.length > 0}
+          <PlantIcon type="sunlight" title={getSunlightIcon(sunlight)} size="34" className="text-yellow-500" />
+        {/if}
+        
+        {#if indoor}
+          <PlantIcon type="indoor" size="34" className="text-green-500" />
+        {/if}
+        
+        {#if flowers}
+          <PlantIcon type="flowers" size="34" className="text-pink-500" />
+        {/if}
+        
+        {#if medicinal}
+          <PlantIcon type="medicinal" size="34" className="text-purple-500" />
+        {/if}
+        
+        {#if edible}
+          <PlantIcon type="edible" size="34" className="text-orange-500" />
+        {/if}
+      </div>
     </div>
     
     <!-- Link -->

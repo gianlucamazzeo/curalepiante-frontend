@@ -48,8 +48,8 @@
 		},
 		{
 			id: 3,
-			nome: 'Orto e aromatiche',
-			slug: 'orto-aromatiche',
+			nome: 'Orto e commestibili',
+			slug: 'orto-e-commestibili',
 			descrizione: 'Facili da curare e bellissime da vedere: scopri il mondo delle succulente.',
 			immagine: '/images/pommodori.png'
 		}

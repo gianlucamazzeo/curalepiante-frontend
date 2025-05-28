@@ -9,6 +9,7 @@ export interface PianteFilters {
   indoor?: boolean;
   flowers?: boolean;
   watering?: string;
+  edible?: boolean;
   page?: number;
   limit?: number;
 }
@@ -111,6 +112,9 @@ function createPianteStore() {
       filters: PianteFilters = {}, 
       forceRefresh = false
     ) => {
+      console.log(`Recupero piante per categoria: ${categorySlug}, filtri:`, filters);
+
+
       update(state => ({ 
         ...state, 
         isLoading: true, 
@@ -149,6 +153,7 @@ function createPianteStore() {
         if (filters.search) queryParams.search = filters.search;
         if (filters.indoor !== undefined) queryParams.indoor = filters.indoor ? 1 : 0;
         if (filters.flowers !== undefined) queryParams.flowers = filters.flowers ? 1 : 0;
+        if (filters.edible !== undefined) queryParams.edible = filters.edible ? 1 : 0;
         if (filters.watering) queryParams.watering = filters.watering;
         
         // Esegui la chiamata API appropriata in base alla categoria

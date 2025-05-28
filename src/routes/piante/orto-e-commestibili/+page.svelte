@@ -9,16 +9,19 @@
   let searchQuery = '';
   let floweringFilter = false;
   let wateringFilter = '';
+  let edibleFilter = true; // Forza il filtro per piante commestibili
+  let indoorFilter = false; // Forza il filtro per piante da esterno
   
   // SEO data
   const seoData = {
-    title: 'Piante da Esterno - Piante perfette per il tuo giardino',
-    description: 'Scopri la nostra selezione di piante da esterno. Filtra per esigenze di luce, acqua e trova la pianta perfetta per abbellire i tuoi spazi esterni.',
-    keywords: 'piante da esterno, piante giardino, piante balcone, piante terrazzo, giardinaggio',
-    ogImage: '/images/hero-background.png',
-    ogType: 'website',
-    canonicalUrl: $page.url.href
-  };
+  title: 'Orto e Piante Commestibili - Coltiva il tuo orto domestico',
+  description: 'Scopri la nostra selezione di piante commestibili per il tuo orto. Verdure, erbe aromatiche e piante da frutto per coltivare cibo fresco e genuino a casa tua.',
+  keywords: 'orto domestico, piante commestibili, verdure da coltivare, erbe aromatiche, piante da frutto, orto in vaso, orto sul balcone, coltivazione biologica',
+  ogImage: '/images/hero-background.png',
+  ogType: 'website',
+  canonicalUrl: $page.url.href
+};
+
 
   $: console.log($pianteStore.piante);
   
@@ -26,9 +29,10 @@
   function applyFilters() {
     const filters: PianteFilters = {
       search: searchQuery || undefined,
-      indoor: false || undefined, // Forza il filtro per piante da esterno
-      flowers: floweringFilter || undefined,
+      indoor: indoorFilter || undefined, // Forza il filtro per piante da esterno
+      flowers: floweringFilter || undefined, // Forza il filtro per piante da fiore
       watering: wateringFilter || undefined,
+      edible: edibleFilter || undefined, // Forza il filtro per piante commestibili
       page: 1 // Reset to page 1 when applying new filters
     };
     
@@ -72,21 +76,22 @@
     // Estrai i parametri di ricerca dall'URL (se presenti)
     const url = new URL(window.location.href);
     searchQuery = url.searchParams.get('search') || '';
-    floweringFilter = url.searchParams.get('flowers') === 'true';
+   // floweringFilter = url.searchParams.get('flowers') === 'true';
     wateringFilter = url.searchParams.get('watering') || '';
     
     // Prepara i filtri iniziali basati sui parametri URL
     const initialFilters: PianteFilters = {
       search: searchQuery || undefined,
-      indoor: false || undefined, // Forza il filtro per piante da esterno
-      flowers: floweringFilter || undefined,
-      watering: wateringFilter || undefined,
+      indoor: indoorFilter, // Forza il filtro per piante da esterno
+      flowers: floweringFilter,
+      watering: wateringFilter,
+      edible: edibleFilter || undefined, // Forza il filtro per piante commestibili
       page: 1,
       limit: 20
     };
     
     // Carica le piante con i filtri iniziali
-    pianteStore.fetchPiante('piante-da-esterno', initialFilters);
+    pianteStore.fetchPiante('orto-e-commestibili', initialFilters);
   
   });
 </script>
@@ -95,11 +100,11 @@
 
 <div class="bg-green-50 py-12">
   <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-    <h1 class="text-4xl font-serif font-bold text-emerald-800 mb-4 text-center">Piante da Esterno</h1>
+    <h1 class="text-4xl font-serif font-bold text-emerald-800 mb-4 text-center">Orto e commestibili</h1>
     
     <p class="text-gray-600 text-center max-w-3xl mx-auto mb-8">
-      Le piante da esterno sono perfette per decorare il tuo giardino, balcone o terrazzo.
-      Scopri la nostra selezione di piante che prosperano all'aria aperta e con luce solare diretta.
+      Crea il tuo orto domestico con le nostre piante commestibili selezionate.
+  Coltiva verdure fresche, erbe aromatiche e piante da frutto per portare sapori genuini direttamente sulla tua tavola.
     </p>
     
     <!-- Filtri di ricerca -->
@@ -180,7 +185,7 @@
         <p>
           Mostrando {($pianteStore.pagination.currentPage - 1) * $pianteStore.pagination.perPage + 1} - 
           {Math.min($pianteStore.pagination.currentPage * $pianteStore.pagination.perPage, $pianteStore.pagination.total)} 
-          di {$pianteStore.pagination.total} piante da esterno
+          di {$pianteStore.pagination.total} Orto e commestibili
         </p>
       </div>
       

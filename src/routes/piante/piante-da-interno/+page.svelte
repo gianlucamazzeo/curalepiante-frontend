@@ -199,6 +199,7 @@
             indoor={pianta.indoor || false}
             flowers={pianta.flowers || false}
             medicinal={pianta.medicinal || false}
+            edible={pianta.edible || false}
           />
         {/each}
       </div>

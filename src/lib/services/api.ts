@@ -12,30 +12,35 @@ async function getMockData<T>(endpoint: string): Promise<T> {
 	await new Promise(resolve => setTimeout(resolve, 200));
 	
 	// Mappa gli endpoint ai dati mock appropriati
-	const mockMap: Record<string, any> = {
+	const mockMap: Record<string, unknown> = {
 		'/categorie': mockData.categorie,
 		'/api/piante': mockData.piante,
 		'/api/piante?indoor=true': mockData.piante_da_interno,
-		'/api/piante?indoor=false': mockData.piante_da_esterno
+		'/api/piante?indoor=false': mockData.piante_da_esterno,
+		'/api/piante?edible=true': mockData.piante_da_orto_e_commestibili
 	};
 	
 	// Gestisci endpoint con parametri di query
+	console.log(`Fetching mock data for endpoint: ${endpoint}`);
 	let mockKey = endpoint;
 	if (endpoint.includes('/api/piante')) {
-		if (endpoint.includes('indoor=true')) {
+		if (endpoint.includes('indoor=1')) {
 			mockKey = '/api/piante?indoor=true';
-		} else if (endpoint.includes('indoor=false')) {
+		} else if (endpoint.includes('indoor=0')) {
 			mockKey = '/api/piante?indoor=false';
+		} else if (endpoint.includes('edible=1')) {
+			mockKey = '/api/piante?edible=true';
 		} else {
 			mockKey = '/api/piante';
 		}
 	}
 	
 	const data = mockMap[mockKey];
+//	console.log(`Mock data for ${mockKey}:`, data);
 	if (!data) {
 		throw new Error(`Mock data non trovato per endpoint: ${endpoint}`);
 	}
-	
+	console.log(`Using mock data for endpoint: ${endpoint}`);
 	return data as T;
 }
 
@@ -148,6 +153,7 @@ export interface PiantaDTO {
 	indoor: boolean;
 	flowers: boolean;
 	fruits: boolean;
+	edible: boolean; // Assuming this is the same as cuisine
 	cuisine: boolean;
 	medicinal: boolean;
 	poisonous_to_pets: boolean;
@@ -165,6 +171,7 @@ export interface Pianta {
 	watering: string;
 	sunlight: string[];
 	indoor: boolean;
+	edible: boolean; // Assuming cuisine means edible
 	flowers: boolean;
 	fruits: boolean;
 	cuisine: boolean;
@@ -189,6 +196,7 @@ function mapPianta(dto: PiantaDTO): Pianta {
 		fruits: dto.fruits,
 		cuisine: dto.cuisine,
 		medicinal: dto.medicinal,
+		edible: dto.edible, // Assuming cuisine means edible
 		poisonousToPets: dto.poisonous_to_pets,
 		pruningCount: dto.pruning_count,
 		image: dto.default_image
