@@ -7,10 +7,10 @@
   
   // Stato locale per i filtri di ricerca
   let searchQuery = '';
-  let floweringFilter = false;
+  let floweringFilter = false; // Non usato in questa pagina, ma può essere utile in futuro
   let wateringFilter = '';
   let edibleFilter = true; // Forza il filtro per piante commestibili
-  let indoorFilter = false; // Forza il filtro per piante da esterno
+  let indoorFilter = false; // Non usato in questa pagina, ma può essere utile in futuro
   
   // SEO data
   const seoData = {
@@ -29,10 +29,10 @@
   function applyFilters() {
     const filters: PianteFilters = {
       search: searchQuery || undefined,
-      indoor: indoorFilter || undefined, // Forza il filtro per piante da esterno
-      flowers: floweringFilter || undefined, // Forza il filtro per piante da fiore
+      flowers: floweringFilter || undefined,
       watering: wateringFilter || undefined,
       edible: edibleFilter || undefined, // Forza il filtro per piante commestibili
+      indoor: indoorFilter || undefined, // Non usato in questa pagina, ma può essere utile in futuro
       page: 1 // Reset to page 1 when applying new filters
     };
     
@@ -82,10 +82,10 @@
     // Prepara i filtri iniziali basati sui parametri URL
     const initialFilters: PianteFilters = {
       search: searchQuery || undefined,
-      indoor: indoorFilter, // Forza il filtro per piante da esterno
       flowers: floweringFilter,
       watering: wateringFilter,
       edible: edibleFilter || undefined, // Forza il filtro per piante commestibili
+     indoor: indoorFilter || undefined, // Non usato in questa pagina, ma può essere utile in futuro
       page: 1,
       limit: 20
     };
@@ -204,7 +204,7 @@
             indoor={pianta.indoor || null || false}
             flowers={pianta.flowers || false}
             medicinal={pianta.medicinal || false}
-            edible={pianta.edible || false}
+            edible={pianta.edible || null || false}
           />
         {/each}
       </div>

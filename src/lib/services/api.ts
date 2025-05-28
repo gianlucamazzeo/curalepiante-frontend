@@ -306,7 +306,7 @@ export const pianteAPI = {
 			await fetchWithErrorHandling<ApiResponse<PaginatedPianteResponse<PiantaDTO>>>(endpoint);
 
 		// Debug: Log the response structure
-		console.log('API Response:', response);
+	
 		console.log('Piante data:', response.data.data);
 
 		return {
