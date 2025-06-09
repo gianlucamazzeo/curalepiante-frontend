@@ -23,5 +23,12 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 CLAUDE.md
-
+import_updated_plants.sh
+test_download.sh
+static/images/plants/merge_plants.js
+static/images/plants/nuove_piante_da_aggiungere.json
+static/images/plants/paste.txt
+static/images/plants/piante_collection_nuove.json
+static/images/plants/piante_collection.json
+static/images/plants/piante_with_local_images.json
 .vercel

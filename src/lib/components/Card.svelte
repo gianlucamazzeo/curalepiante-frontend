@@ -28,7 +28,7 @@
     indoor = false,
     flowers = false,
     medicinal = false,
-    edible = true,
+    edible = false
   }: Props = $props();
 
   function getWateringIcon(wateringLevel: string): string {
@@ -51,7 +51,7 @@
   // Funzione reattiva per contare le icone visibili
   const visibleIcons = $derived([
     watering,
-    sunlight && sunlight.length > 0,
+    sunlight,
     indoor,
     flowers,
     medicinal,
@@ -64,7 +64,7 @@
 <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
   {#if image}
     <!-- Immagine card -->
-    <img src={image} alt={imageAlt} class="w-full md:w-2/5 h-48 md:h-full object-cover">
+    <img src={`/images${image}`} alt={imageAlt} class="w-full md:w-2/5 h-48 md:h-full object-cover">
   {/if}
   
   <div class="p-6 flex flex-col flex-grow">

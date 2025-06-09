@@ -60,7 +60,7 @@
 			title: 'Come irrigare correttamente le piante',
 			description:
 				"Scopri i segreti per un'irrigazione efficace e risparmia acqua mantenendo le tue piante in salute.",
-			image: '/images/articles/irrigare-correttamente-la-pianta.png',
+			image: '/articles/irrigare-correttamente-la-pianta.png',
 			imageAlt: 'Come irrigare correttamente le piante',
 			link: '/guide/irrigazione-corretta'
 		},
@@ -68,21 +68,21 @@
 			title: 'Top 10 piante facili da curare',
 			description:
 				'Le migliori piante per principianti che richiedono poche attenzioni ma danno grandi soddisfazioni.',
-			image: '/images/articles/potatura-pianta.png',
+			image: '/articles/potatura-pianta.png',
 			imageAlt: 'Top 10 piante facili da curare',
 			link: '/guide/piante-facili-cura'
 		},
 		{
 			title: 'Tecniche di potatura efficaci',
 			description: 'Impara quando e come potare le tue piante per stimolare la crescita.',
-			image: '/images/articles/tecniche_potatura.png',
+			image: '/articles/tecniche_potatura.png',
 			imageAlt: 'Tecniche di potatura',
 			link: '/guide/tecniche-potatura'
 		},
 		{
 			title: 'Come combattere i parassiti',
 			description: 'Soluzioni naturali ed efficaci contro i parassiti più comuni delle piante.',
-			image: '/images/articles/combattere-parassiti-per-piante.png',
+			image: '/articles/combattere-parassiti-per-piante.png',
 			imageAlt: 'Combattere i parassiti',
 			link: '/guide/combattere-parassiti'
 		},
@@ -90,7 +90,7 @@
 			title: 'Guida completa al rinvaso',
 			description:
 				'Tutti i passaggi per rinvasare correttamente le tue piante e farle crescere sane.',
-			image: '/images/articles/rinvasare-le-piante.png',
+			image: '/articles/rinvasare-le-piante.png',
 			imageAlt: 'Guida al rinvaso',
 			link: '/guide/rinvaso-piante'
 		}

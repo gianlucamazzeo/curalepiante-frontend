@@ -17,14 +17,20 @@ async function getMockData<T>(endpoint: string): Promise<T> {
 		'/api/piante': mockData.piante,
 		'/api/piante?indoor=true': mockData.piante_da_interno,
 		'/api/piante?indoor=false': mockData.piante_da_esterno,
-		'/api/piante?edible=true': mockData.piante_da_orto_e_commestibili
+		'/api/piante?edible=true': mockData.piante_da_orto_e_commestibili,
+		'/api/piante/edible': mockData.piante_da_orto_e_commestibili,
+		'/api/piante/outdoor': mockData.piante_da_esterno
 	};
 	
 	// Gestisci endpoint con parametri di query
 	console.log(`Fetching mock data for endpoint: ${endpoint}`);
 	let mockKey = endpoint;
 	if (endpoint.includes('/api/piante')) {
-		if (endpoint.includes('indoor=1')) {
+		if (endpoint.includes('/api/piante/edible')) {
+			mockKey = '/api/piante/edible';
+		} else if (endpoint.includes('/api/piante/outdoor')) {
+			mockKey = '/api/piante/outdoor';
+		} else if (endpoint.includes('indoor=1')) {
 			mockKey = '/api/piante?indoor=true';
 		} else if (endpoint.includes('indoor=0')) {
 			mockKey = '/api/piante?indoor=false';
@@ -178,7 +184,7 @@ export interface Pianta {
 	medicinal: boolean;
 	poisonousToPets: boolean;
 	pruningCount: number;
-	image: PiantaImmagine | null;
+	image: string| null;
 }
 
 // Funzione di mappatura dal DTO al modello dell'app per Pianta
@@ -311,6 +317,76 @@ export const pianteAPI = {
 
 		return {
 			
+			piante: Array.isArray(response.data.data) ? response.data.data.map(mapPianta) : [],
+			pagination: {
+				currentPage: response.data.current_page,
+				totalPages: response.data.last_page,
+				total: response.data.total,
+				perPage: response.data.per_page
+			}
+		};
+	},
+
+	getEdible: async (
+		params: Record<string, unknown> = {}
+	): Promise<{
+		piante: Pianta[];
+		pagination: { currentPage: number; totalPages: number; total: number; perPage: number };
+	}> => {
+		// Costruisci la query string dai parametri
+		const queryParams = new URLSearchParams();
+
+		// Aggiungi i parametri alla query string
+		for (const [key, value] of Object.entries(params)) {
+			if (value !== undefined && value !== null) {
+				queryParams.append(key, String(value));
+			}
+		}
+
+		const queryString = queryParams.toString();
+		const endpoint = queryString ? `/api/piante/edible?${queryString}` : '/api/piante/edible';
+
+		const response =
+			await fetchWithErrorHandling<ApiResponse<PaginatedPianteResponse<PiantaDTO>>>(endpoint);
+
+		console.log('Edible plants data:', response.data.data);
+
+		return {
+			piante: Array.isArray(response.data.data) ? response.data.data.map(mapPianta) : [],
+			pagination: {
+				currentPage: response.data.current_page,
+				totalPages: response.data.last_page,
+				total: response.data.total,
+				perPage: response.data.per_page
+			}
+		};
+	},
+
+	getOutdoor: async (
+		params: Record<string, unknown> = {}
+	): Promise<{
+		piante: Pianta[];
+		pagination: { currentPage: number; totalPages: number; total: number; perPage: number };
+	}> => {
+		// Costruisci la query string dai parametri
+		const queryParams = new URLSearchParams();
+
+		// Aggiungi i parametri alla query string
+		for (const [key, value] of Object.entries(params)) {
+			if (value !== undefined && value !== null) {
+				queryParams.append(key, String(value));
+			}
+		}
+
+		const queryString = queryParams.toString();
+		const endpoint = queryString ? `/api/piante/outdoor?${queryString}` : '/api/piante/outdoor';
+
+		const response =
+			await fetchWithErrorHandling<ApiResponse<PaginatedPianteResponse<PiantaDTO>>>(endpoint);
+
+		console.log('Outdoor plants data:', response.data.data);
+
+		return {
 			piante: Array.isArray(response.data.data) ? response.data.data.map(mapPianta) : [],
 			pagination: {
 				currentPage: response.data.current_page,

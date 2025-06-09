@@ -137,8 +137,9 @@
         </fieldset>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Esigenza di acqua</label>
+          <label for="watering-select" class="block text-sm font-medium text-gray-700 mb-1">Esigenza di acqua</label>
           <select 
+            id="watering-select"
             bind:value={wateringFilter} 
             class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
           >
@@ -196,7 +197,7 @@
           <Card 
             title={pianta.commonName}
             description={`${pianta.scientificName[0] || ''} `}
-            image={pianta.image?.thumbnail || '/images/pianta-da-interno.png'}
+            image={pianta.image || '/images/pianta-da-interno.png'}
             imageAlt={pianta.commonName}
             link={`/piante/dettaglio/${pianta.id}`}
             linkText="Vedi dettagli →"
